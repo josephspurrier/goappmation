@@ -3,7 +3,7 @@ Portable App Creator in Go
 
 This package makes it easy to find latest version of an application found on a website, download the zip to your computer, extract only the necessary files, and then add any files and scripts you need to make the software portable.
 
-This tool will eventually be used to update (golang-portable-windows)[https://github.com/josephspurrier/golang-portable-windows] and (surfstack-wamp)[https://github.com/josephspurrier/surfstack-wamp] because much of the work to create portable versions of the latest software is manual.
+This tool will eventually be used to update [golang-portable-windows](https://github.com/josephspurrier/golang-portable-windows) and [surfstack-wamp](https://github.com/josephspurrier/surfstack-wamp) because much of the work to create portable versions of the latest software is manual.
 
 ## Example: Build MySQL Portable for Windows
 
