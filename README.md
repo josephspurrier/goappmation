@@ -16,7 +16,11 @@ To install, run the following command:
 go get github.com/josephspurrier/goappmation/cmd/goappmation
 ~~~
 
-Now run from a command line: goappmation.exe "../../config/MySQL Portable v5.7.9.json"
+Then, run this command:
+
+~~~
+goappmation.exe "../../config/MySQL Portable v5.7.9.json"
+~~~
 
 The portable distribution will be created in a folder called: MySQL Portable v5.7.9
 
