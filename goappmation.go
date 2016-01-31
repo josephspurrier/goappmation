@@ -18,7 +18,7 @@ var ForceExtract = true
 var SkipDownload = true
 
 // Run will execute commands from a config file
-func Run(configFile string) {
+func Run(configFile string, versionOverwrite string) {
 
 	// Set the name of the config file
 	configFileName := path.Base(configFile)
@@ -42,6 +42,11 @@ func Run(configFile string) {
 
 	// Set the application version
 	version := pi.Version
+
+	// Overwrite the version if available
+	if versionOverwrite != "" {
+		version = versionOverwrite
+	}
 
 	// If Version Check parameters are specified
 	if pi.VersionCheck.Url != "" && pi.VersionCheck.RegEx != "" {

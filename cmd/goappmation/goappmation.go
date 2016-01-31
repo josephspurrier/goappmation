@@ -14,6 +14,9 @@ import (
 
 func main() {
 
+	// Overwrite version
+	flagVersion := flag.String("version", "", "Overwrites the version in the config file")
+
 	flag.Parse()
 
 	configFile := flag.Arg(0)
@@ -23,6 +26,8 @@ func main() {
 		os.Exit(1)
 	}
 
+	log.Println("TEST", *flagVersion)
+
 	// Run the automation
-	goappmation.Run(configFile)
+	goappmation.Run(configFile, *flagVersion)
 }

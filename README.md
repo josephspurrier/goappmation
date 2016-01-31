@@ -44,14 +44,13 @@ You can use the **{{VERSION}}** variable in **ApplicationName** and **DownloadUr
 * Create files to do certain things like run the application
 * Get the version number of the latest version
 * Move/rename files and folders
+* Pass version that overwrites version in the config file
 
 ### Next Goals
 
 * Add ability to download files that are not zipped
 * Add ability to edit files
 * Add ability to append to files
-* Add top level script that runs child scripts
-* Add inheritance to scripts to manage version in the top level script
 * Handle migrations between different versions
 * Do diffs between text files for configs
 * Maybe create a simple script language
