@@ -26,8 +26,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	log.Println("TEST", *flagVersion)
-
 	// Run the automation
 	goappmation.Run(configFile, *flagVersion)
 }
