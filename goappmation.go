@@ -11,7 +11,7 @@ import (
 
 func init() {
 	// Verbose logging with file name and line number
-	log.SetFlags(log.Lshortfile)
+	//log.SetFlags(log.Lshortfile)
 }
 
 var ForceExtract = true

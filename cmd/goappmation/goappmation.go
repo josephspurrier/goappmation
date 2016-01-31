@@ -5,12 +5,23 @@
 package main
 
 import (
+	"flag"
+	"log"
+	"os"
+
 	"github.com/josephspurrier/goappmation"
 )
 
 func main() {
 
-	configFile := "../../config/MySQL Portable v5.7.9.json"
+	flag.Parse()
+
+	configFile := flag.Arg(0)
+
+	if configFile == "" {
+		log.Println("JSON Config file must be passed")
+		os.Exit(1)
+	}
 
 	// Run the automation
 	goappmation.Run(configFile)
