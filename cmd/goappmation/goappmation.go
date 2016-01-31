@@ -5,42 +5,13 @@
 package main
 
 import (
-	"io"
-	"io/ioutil"
-	"log"
-	"os"
-
 	"github.com/josephspurrier/goappmation"
 )
 
 func main() {
 
-	configFile := "../../config/mysql.json"
-
-	var err error
-	var input = io.ReadCloser(os.Stdin)
-	if input, err = os.Open(configFile); err != nil {
-		log.Printf("Cannot open %q: %v", configFile, err)
-		os.Exit(1)
-	}
-
-	// Read the config file
-	jsonBytes, err := ioutil.ReadAll(input)
-	input.Close()
-	if err != nil {
-		log.Printf("Error reading %q: %v", configFile, err)
-		os.Exit(1)
-	}
-
-	// Create a new container
-	pi := &goappmation.PortableInfo{}
-
-	// Parse the config
-	if err := pi.ParseJSON(jsonBytes); err != nil {
-		log.Printf("Could not parse the .json file: %v", err)
-		os.Exit(2)
-	}
+	configFile := "../../config/MySQL Portable v5.7.9.json"
 
 	// Run the automation
-	goappmation.Run(pi)
+	goappmation.Run(configFile)
 }
