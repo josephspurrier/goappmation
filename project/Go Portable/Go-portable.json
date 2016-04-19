@@ -1,0 +1,10 @@
+{
+	"ApplicationName": "GoPortWin{{VERSION}}",
+	"DownloadExtension": ".zip",
+	"DownloadUrl": "https://github.com/josephspurrier/golang-portable-windows/releases/download/{{VERSION}}/GoPortWin{{VERSION}}.zip",
+	"RemoveRootFolder": false,
+	"ExtractRegExList":
+	[
+		"(.*)"
+	]
+}

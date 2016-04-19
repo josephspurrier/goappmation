@@ -2,7 +2,6 @@
 	"ApplicationName": "Go v{{VERSION}}-amd64",
 	"DownloadExtension": ".zip",
 	"DownloadUrl": "https://storage.googleapis.com/golang/go{{VERSION}}.windows-amd64.zip",
-	"Version": "1.5.3",
 	"RemoveRootFolder": false,
 	"ExtractRegExList":
 	[

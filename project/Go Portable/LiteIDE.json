@@ -1,0 +1,10 @@
+{
+	"ApplicationName": "LiteIDEWinX{{VERSION}}",
+	"DownloadExtension": ".zip",
+	"DownloadUrl": "http://downloads.sourceforge.net/project/liteide/X{{VERSION}}/liteidex{{VERSION}}.windows-qt4.zip",
+	"RemoveRootFolder": true,
+	"ExtractRegExList":
+	[
+		"(.*)"
+	]
+}
