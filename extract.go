@@ -33,6 +33,68 @@ func extractFromRequest(url string, regExp string) (string, error) {
 	return "", errors.New("Could not find string on page:" + url)
 }
 
+var msiDstFolder string
+var msiSrcFolder string
+var msiAllowRegExp *regexp.Regexp
+
+// copyMsiRegex will copy certain files from a directory to another folder based on a regular expression
+func copyMsiRegex(srcFolder string, dstFolder string, allowRegExp *regexp.Regexp) (bool, error) {
+	// Create folder to extract files
+	if !isExist(dstFolder) {
+		err := os.MkdirAll(dstFolder, os.ModePerm)
+		if err != nil {
+			return false, err
+		}
+	}
+
+	msiDstFolder = dstFolder
+	msiSrcFolder = srcFolder
+	msiAllowRegExp = allowRegExp
+
+	err := filepath.Walk(srcFolder, visitMsiFile)
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
+}
+
+func visitMsiFile(fp string, fi os.FileInfo, err error) error {
+	if err != nil {
+		return nil // can't walk here, but continue walking elsewhere
+	}
+
+	// Path AFTER the source directory (not including the src dir)
+	relativePath := strings.TrimLeft(fp, msiSrcFolder)
+
+	// Destination path
+	finalPath := filepath.Join(msiDstFolder, relativePath)
+
+	// Destination path folder
+	basePath := filepath.Dir(finalPath)
+
+	// Check if the file matches the regular expression
+	if !msiAllowRegExp.MatchString(strings.Replace(relativePath, "\\", "/", -1)) {
+		return nil
+	}
+
+	// Create the file directory if it doesn't exist
+	if !isExist(basePath) {
+		err = os.MkdirAll(basePath, os.ModePerm)
+		if err != nil {
+			return err
+		}
+	}
+
+	// Move the file
+	err = os.Rename(fp, finalPath)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // extractZipRegex will extract certain files from a ZIP file to a folder based on a regular expression
 func extractZipRegex(file string, rootFolder string, allowRegExp *regexp.Regexp) (bool, error) {
 	// Open a zip archive
@@ -46,7 +108,7 @@ func extractZipRegex(file string, rootFolder string, allowRegExp *regexp.Regexp)
 	if rootFolder != "" {
 		// Create folder to extract files
 		if !isExist(rootFolder) {
-			os.MkdirAll(rootFolder, os.ModePerm)
+			err = os.MkdirAll(rootFolder, os.ModePerm)
 			if err != nil {
 				return false, err
 			}

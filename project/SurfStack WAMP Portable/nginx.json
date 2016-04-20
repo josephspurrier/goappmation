@@ -1,0 +1,11 @@
+{
+	"ApplicationName": "Nginx{{VERSION}}",
+	"DownloadExtension": ".zip",
+	"DownloadUrl": "http://nginx.org/download/nginx-{{VERSION}}.zip",
+	"RemoveRootFolder": true,
+	"RootFolderName": "",
+	"ExtractRegExList":
+	[
+		"(.*)"
+	]
+}

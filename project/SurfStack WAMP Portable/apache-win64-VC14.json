@@ -1,0 +1,26 @@
+{
+	"ApplicationName": "Apache{{VERSION}}",
+	"DownloadExtension": ".zip",
+	"DownloadUrl": "https://www.apachelounge.com/download/VC14/binaries/httpd-{{VERSION}}-win64-VC14.zip",
+	"RemoveRootFolder": true,
+	"RootFolderName": "Apache24",
+	"ExtractRegExList":
+	[
+		"Apache24/bin/(.*)",
+		"Apache24/cgi-bin/(.*)",
+		"Apache24/conf/(.*)",
+		"Apache24/error/(.*)",
+		"Apache24/htdocs/(.*)",
+		"Apache24/icons/(.*)",
+		"Apache24/logs/(.*)",
+		"Apache24/modules/(.*)",
+		"Apache24/ABOUT_APACHE.txt",
+		"Apache24/CHANGES.txt",
+		"Apache24/INSTALL.txt",
+		"Apache24/LICENSE.txt",
+		"Apache24/NOTICE.txt",
+		"Apache24/OPENSSL-NEWS.txt",
+		"Apache24/OPENSSL-README.txt",
+		"Apache24/README.txt"
+	]
+}

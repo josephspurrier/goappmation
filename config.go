@@ -14,8 +14,10 @@ type PortableInfo struct {
 	Version           string            `json:"Version"`
 	VersionCheck      VersionCheck      `json:"VersionCheck"`
 	RemoveRootFolder  bool              `json:"RemoveRootFolder"`
+	RootFolderName    string            `json:"RootFolderName"`
 	DownloadUrl       string            `json:"DownloadUrl"`
 	ExtractRegExList  []string          `json:"ExtractRegExList"`
+	CreateFolders     []string          `json:"CreateFolders"`
 	CreateFiles       map[string]string `json:"CreateFiles"`
 	MoveObjects       map[string]string `json:"MoveObjects"`
 }

@@ -1,0 +1,20 @@
+{
+	"ApplicationName": "MySQL{{VERSION}}",
+	"DownloadExtension": ".zip",
+	"DownloadUrl": "http://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-{{VERSION}}-winx64.zip",
+	"RemoveRootFolder": true,
+	"RootFolderName": "",
+	"ExtractRegExList":
+	[
+		"winx64/bin/mysql.exe",
+		"winx64/bin/mysqladmin.exe",
+		"winx64/bin/mysqld.exe",
+		"winx64/bin/mysqldump.exe",
+		"winx64/data/(.*)",
+		"winx64/docs/(.*)",
+		"winx64/share/(.*)",
+		"winx64/my-default.ini",
+		"winx64/COPYING",
+		"winx64/README"
+	]
+}

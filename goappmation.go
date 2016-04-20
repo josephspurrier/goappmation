@@ -1,10 +1,14 @@
 package goappmation
 
 import (
+	"fmt"
 	"log"
 	"os"
+	"os/exec"
 	"path"
+	"path/filepath"
 	"strings"
+	"syscall"
 
 	"github.com/josephspurrier/goappmation/bytesize"
 )
@@ -122,24 +126,113 @@ func Run(configFile string, versionOverwrite string) {
 	// will be extracted to
 	rootFolder := ""
 
-	// If RemoveRootFolder is set to true
-	if pi.RemoveRootFolder {
-		// Return the name of the root folder in the ZIP
-		workingFolder, err = extractZipRootFolder(zip)
-		if err != nil {
-			log.Println("Error discovering working folder |", err)
-			unifiedExit(1)
-		}
-	} else {
-		rootFolder = workingFolder
-	}
-
 	log.Println("Extracting files")
 
-	// Extract files based on regular expression
-	_, err = extractZipRegex(zip, rootFolder, re)
+	switch pi.DownloadExtension {
+	case ".zip":
+		// If RemoveRootFolder is set to true
+		if pi.RemoveRootFolder {
+			// If the root folder name is specified
+			if len(pi.RootFolderName) > 0 {
+				workingFolder = pi.RootFolderName
+			} else { // Else the root folder name is not specified so guess it
+				// Return the name of the root folder in the ZIP
+				workingFolder, err = extractZipRootFolder(zip)
+				if err != nil {
+					log.Println("Error discovering working folder |", err)
+					unifiedExit(1)
+				}
+			}
+		} else {
+			rootFolder = workingFolder
+		}
+
+		// Extract files based on regular expression
+		_, err = extractZipRegex(zip, rootFolder, re)
+		if err != nil {
+			log.Println("Error extracting from zip |", err)
+			unifiedExit(1)
+		}
+	case ".msi":
+		// Make the folder
+		err = os.Mkdir(folderName, os.ModePerm)
+		if err != nil {
+			log.Println("Error making folder |", err)
+			unifiedExit(1)
+		}
+
+		// Get the full folder path
+		fullFolderPath, err := filepath.Abs(folderName)
+		if err != nil {
+			log.Println("Error getting folder full path |", err)
+			unifiedExit(1)
+		}
+
+		// Build the command
+		cmd := exec.Command("msiexec")
+
+		// Manually set the arguments since Go escaping does not work with MSI arguments
+		argString := fmt.Sprintf(`/a "%v" /qb TARGETDIR="%v"`, zip, fullFolderPath)
+		cmd.SysProcAttr = &syscall.SysProcAttr{
+			HideWindow:    false,
+			CmdLine:       " " + argString,
+			CreationFlags: 0,
+		}
+
+		err = cmd.Run()
+		if err != nil {
+			log.Println("Error extracting from msi |", err)
+			unifiedExit(1)
+		}
+
+		// If RemoveRootFolder is set to true
+		if pi.RemoveRootFolder {
+			// If the root folder name is specified
+			if len(pi.RootFolderName) > 0 {
+
+				//Get the full path of the folder to set as the root folder
+				currentPath := filepath.Join(fullFolderPath, pi.RootFolderName)
+
+				// Check to make sure the path is valid
+				if currentPath == fullFolderPath {
+					log.Println("RootFolderName is invalid:", pi.RootFolderName)
+					unifiedExit(1)
+				}
+
+				// Copy files based on regular expressions
+				_, err = copyMsiRegex(currentPath, fullFolderPath+"_temp", re)
+				if err != nil {
+					log.Println("Error copy from msi folder |", err)
+					unifiedExit(1)
+				}
+
+				// Set the working folder so the rename will work later
+				workingFolder = fullFolderPath + "_temp"
+
+				// Remove the original full folder path
+				err = os.RemoveAll(fullFolderPath)
+				if err != nil {
+					log.Println("Error removing MSI folder:", currentPath)
+					unifiedExit(1)
+				}
+
+			} else { // Else the root folder name is not specified
+				log.Println("The string, RemoveRootName, is required for MSIs")
+				unifiedExit(1)
+			}
+		} else {
+			log.Println("The boolean, RemoveRootFolder, is required for MSIs")
+			unifiedExit(1)
+		}
+	default:
+		log.Println("Download extension not supported:", pi.DownloadExtension)
+		unifiedExit(1)
+	}
+
+	log.Println("Creating folders")
+	err = createFolders(pi.CreateFolders, workingFolder)
 	if err != nil {
-		log.Println("Error extracting from zip |", err)
+		log.Println("Error creating folders |", err)
 		unifiedExit(1)
 	}
 

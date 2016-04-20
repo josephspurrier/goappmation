@@ -42,3 +42,22 @@ func moveObjects(files map[string]string, workingFolder string) error {
 
 	return nil
 }
+
+// createFolders creates folders from the CreateFolders attribute
+func createFolders(folders []string, dstFolder string) error {
+	// Loop through each folder
+	for _, folder := range folders {
+
+		// Path of file
+		newPath := filepath.Join(dstFolder, folder)
+
+		if !isExist(newPath) {
+			err := os.MkdirAll(newPath, os.ModePerm)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
