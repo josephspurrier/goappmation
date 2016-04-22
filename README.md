@@ -23,7 +23,7 @@ Then, run one of these commands depending on how you want to specify the version
 goappmation.exe "../../project/MySQL Portable/MySQL Portable v5.7.12.json"
 
 # MySQL v5.7.12 - version specified outside the config file
-goappmation.exe "../../project/MySQL Portable/MySQL Portable v5.7.X.json" -version=5.7.12
+goappmation.exe -version=5.7.12 "../../project/MySQL Portable/MySQL Portable v5.7.X.json"
 ~~~
 
 The portable distribution will be created in a folder called: MySQL Portable v5.7.12
